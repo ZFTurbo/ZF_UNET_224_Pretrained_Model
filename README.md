@@ -1,6 +1,10 @@
 # ZF_UNET_224 Pretrained Model
 Modification of convolutional neural net "UNET" for image segmentation in Keras framework
 
+## Requirements
+
+Python 3.*, Keras 1.2.*, Theano 0.9.*
+
 ## Usage
 
 ```python
@@ -17,6 +21,9 @@ model.fit(...)
 
 ## Pretrained weights
 
+Download: [Weights ~123 MB](https://mega.nz/#!eAY2WAJS!zsb9rq20gjaSWJECu6tGdTN9tG6ZzQk0KQvB8iG2sL4)
+
 Weights were obtained with random image generator (generator code available here: train_infinite_generator.py). See example of images from generator below.
 
 ![Example of images from generator](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/blob/master/ZF_UNET_Generator_Images_Example.png)
+
