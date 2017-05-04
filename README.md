@@ -13,3 +13,9 @@ model.compile(optimizer=optim, loss=dice_coef_loss, metrics=[dice_coef])
 
 model.fit(...)
 ```
+
+## Pretrained weights
+
+Weights were obtained with random image generator (check code: train_infinite_generator.py). See example of images from generator below.
+
+
