@@ -1,4 +1,4 @@
-# ZF_UNET_224_Pretrained_Model
+# ZF_UNET_224 Pretrained Model
 Modification of convolutional neural net "UNET" for image segmentation in Keras framework
 
 ## Usage
