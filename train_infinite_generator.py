@@ -10,7 +10,6 @@ import cv2
 import random
 import numpy as np
 import pandas as pd
-from theano.version import version as __theano_version__
 from keras.optimizers import Adam, SGD
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras import __version__
