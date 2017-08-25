@@ -31,7 +31,7 @@ model.fit(...)
 
 ## Pretrained weights
 
-Download: [Weights ~123 MB](https://mega.nz/#!eAY2WAJS!zsb9rq20gjaSWJECu6tGdTN9tG6ZzQk0KQvB8iG2sL4)
+Download: [Weights for Theano backend ~123 MB](https://mega.nz/#!eAY2WAJS!zsb9rq20gjaSWJECu6tGdTN9tG6ZzQk0KQvB8iG2sL4)
 
 Weights were obtained with random image generator (generator code available here: train_infinite_generator.py). See example of images from generator below.
 
