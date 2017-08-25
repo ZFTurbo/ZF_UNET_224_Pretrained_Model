@@ -7,7 +7,6 @@
     - It has 3 input channels (to process standard RGB (BGR) images). You can change it with variable "INPUT_CHANNELS"
     - It trained on random image generator with random light shapes (ellipses) on dark background with noise (< 10%).
     - In most cases model ZF_UNET_224 is ok to be used without pretrained weights.
-    - This code was checked for Theano backend only
 '''
 
 __author__ = 'ZFTurbo: https://kaggle.com/zfturbo'
