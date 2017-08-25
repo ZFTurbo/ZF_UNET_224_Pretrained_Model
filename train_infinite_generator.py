@@ -115,6 +115,17 @@ def train_unet():
 
 
 if __name__ == '__main__':
-    print('Theano version: {}'.format(__theano_version__))
+    if K.backend() == 'tensorflow':
+        try:
+            from tensorflow import __version__ as __tensorflow_version__
+            print('Tensorflow version: {}'.format(__tensorflow_version__))
+        except:
+            print('Tensorflow is unavailable...')
+    else:
+        try:
+            from theano.version import version as __theano_version__
+            print('Theano version: {}'.format(__theano_version__))
+        except:
+            print('Theano is unavailable...')
     print('Keras version {}'.format(__version__))
     train_unet()

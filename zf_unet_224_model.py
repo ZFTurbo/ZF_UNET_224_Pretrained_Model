@@ -53,13 +53,17 @@ def dice_coef_loss(y_true, y_pred):
 
 
 def double_conv_layer(x, size, dropout, batch_norm):
+    if K.image_dim_ordering() == 'th':
+        axis = 1
+    else:
+        axis = 3
     conv = Convolution2D(size, 3, 3, border_mode='same')(x)
     if batch_norm == True:
-        conv = BatchNormalization(mode=0, axis=1)(conv)
+        conv = BatchNormalization(mode=0, axis=axis)(conv)
     conv = Activation('relu')(conv)
     conv = Convolution2D(size, 3, 3, border_mode='same')(conv)
     if batch_norm == True:
-        conv = BatchNormalization(mode=0, axis=1)(conv)
+        conv = BatchNormalization(mode=0, axis=axis)(conv)
     conv = Activation('relu')(conv)
     if dropout > 0:
         conv = Dropout(dropout)(conv)
@@ -67,41 +71,48 @@ def double_conv_layer(x, size, dropout, batch_norm):
 
 
 def ZF_UNET_224(dropout_val=0.05, batch_norm=True):
-    inputs = Input((INPUT_CHANNELS, 224, 224))
-    conv1 = double_conv_layer(inputs, 32, dropout_val, batch_norm)
+    if K.image_dim_ordering() == 'th':
+        inputs = Input((INPUT_CHANNELS, 224, 224))
+        axis = 1
+    else:
+        inputs = Input((224, 224, INPUT_CHANNELS))
+        axis = 3
+    filters = 32
+
+    conv1 = double_conv_layer(inputs, filters, dropout_val, batch_norm)
     pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
 
-    conv2 = double_conv_layer(pool1, 64, dropout_val, batch_norm)
+    conv2 = double_conv_layer(pool1, 2*filters, dropout_val, batch_norm)
     pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
 
-    conv3 = double_conv_layer(pool2, 128, dropout_val, batch_norm)
+    conv3 = double_conv_layer(pool2, 4*filters, dropout_val, batch_norm)
     pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
 
-    conv4 = double_conv_layer(pool3, 256, dropout_val, batch_norm)
+    conv4 = double_conv_layer(pool3, 8*filters, dropout_val, batch_norm)
     pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
 
-    conv5 = double_conv_layer(pool4, 512, dropout_val, batch_norm)
+    conv5 = double_conv_layer(pool4, 16*filters, dropout_val, batch_norm)
     pool5 = MaxPooling2D(pool_size=(2, 2))(conv5)
 
-    conv6 = double_conv_layer(pool5, 1024, dropout_val, batch_norm)
+    conv6 = double_conv_layer(pool5, 32*filters, dropout_val, batch_norm)
 
-    up6 = merge([UpSampling2D(size=(2, 2))(conv6), conv5], mode='concat', concat_axis=1)
-    conv7 = double_conv_layer(up6, 512, dropout_val, batch_norm)
+    up6 = merge([UpSampling2D(size=(2, 2))(conv6), conv5], mode='concat', concat_axis=axis)
+    conv7 = double_conv_layer(up6, 16*filters, dropout_val, batch_norm)
 
-    up7 = merge([UpSampling2D(size=(2, 2))(conv7), conv4], mode='concat', concat_axis=1)
-    conv8 = double_conv_layer(up7, 256, dropout_val, batch_norm)
+    up7 = merge([UpSampling2D(size=(2, 2))(conv7), conv4], mode='concat', concat_axis=axis)
+    conv8 = double_conv_layer(up7, 8*filters, dropout_val, batch_norm)
 
-    up8 = merge([UpSampling2D(size=(2, 2))(conv8), conv3], mode='concat', concat_axis=1)
-    conv9 = double_conv_layer(up8, 128, dropout_val, batch_norm)
+    up8 = merge([UpSampling2D(size=(2, 2))(conv8), conv3], mode='concat', concat_axis=axis)
+    conv9 = double_conv_layer(up8, 4*filters, dropout_val, batch_norm)
 
-    up9 = merge([UpSampling2D(size=(2, 2))(conv9), conv2], mode='concat', concat_axis=1)
-    conv10 = double_conv_layer(up9, 64, dropout_val, batch_norm)
+    up9 = merge([UpSampling2D(size=(2, 2))(conv9), conv2], mode='concat', concat_axis=axis)
+    conv10 = double_conv_layer(up9, 2*filters, dropout_val, batch_norm)
 
-    up10 = merge([UpSampling2D(size=(2, 2))(conv10), conv1], mode='concat', concat_axis=1)
-    conv11 = double_conv_layer(up10, 32, 0, batch_norm)
+    up10 = merge([UpSampling2D(size=(2, 2))(conv10), conv1], mode='concat', concat_axis=axis)
+    conv11 = double_conv_layer(up10, filters, 0, batch_norm)
 
     conv12 = Convolution2D(OUTPUT_MASK_CHANNELS, 1, 1)(conv11)
-    conv12 = BatchNormalization(mode=0, axis=1)(conv12)
+    conv12 = BatchNormalization(mode=0, axis=axis)(conv12)
     conv12 = Activation('sigmoid')(conv12)
 
     model = Model(input=inputs, output=conv12)

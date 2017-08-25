@@ -27,7 +27,7 @@ model.fit(...)
 - Input shape for model is 224x224 (the same as for other popular CNNs like VGG or ResNet)
 - It has 3 input channels (to process standard RGB (BGR) images). You can change it with variable "INPUT_CHANNELS"
 - In most cases model ZF_UNET_224 is ok to be used without pretrained weights.
-- This code was checked for Theano backend only
+- This code should work fine on both Theano and Tensorflow backends. It will work on Keras 2.0 as well with some warnings about function old namings and parameters.
 
 ## Pretrained weights
 
