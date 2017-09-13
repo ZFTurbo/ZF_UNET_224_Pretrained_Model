@@ -3,7 +3,7 @@ Modification of convolutional neural net "UNET" for image segmentation in Keras 
 
 ## Requirements
 
-Python 3.*, Keras 1.2, Theano 0.9
+Python 3.*, Keras 2.0.8, Theano 0.9 or Tensorflow 1.3.0
 
 ## Usage
 
@@ -12,7 +12,7 @@ from zf_unet_224_model import ZF_UNET_224, dice_coef_loss, dice_coef
 from keras.optimizers import Adam
 
 model = ZF_UNET_224()
-model.load_weights("zf_unet_224.h5")
+model.load_weights("zf_unet_224.h5") # optional
 optim = Adam()
 model.compile(optimizer=optim, loss=dice_coef_loss, metrics=[dice_coef])
 
@@ -27,7 +27,7 @@ model.fit(...)
 - Input shape for model is 224x224 (the same as for other popular CNNs like VGG or ResNet)
 - It has 3 input channels (to process standard RGB (BGR) images). You can change it with variable "INPUT_CHANNELS"
 - In most cases model ZF_UNET_224 is ok to be used without pretrained weights.
-- This code should work fine on both Theano and Tensorflow backends. It will work on Keras 2.0 as well with some warnings about function old namings and parameters.
+- This code should work fine on both Theano and Tensorflow backends. Code prepared for Keras 2.0, if you need code for Keras 1.2 then use this [link](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/tree/b68bbf3a8af4b732a68cf693fcaa59ae19a0e5e5):
 
 ## Pretrained weights
 
@@ -40,4 +40,3 @@ Weights were obtained with random image generator (generator code available here
 Dice coefficient for pretrained weights: **~0.999**. See history of learning below:
 
 ![Log of dice coefficient during training process](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/blob/master/img/Dice_log.png)
-
