@@ -15,14 +15,6 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras import __version__
 from zf_unet_224_model import *
 
-np.random.seed(2017)
-
-
-def show_image(im, name='image'):
-    cv2.imshow(name, im)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
 
 def gen_random_image():
     img = np.zeros((224, 224, 3), dtype=np.uint8)
@@ -69,7 +61,8 @@ def batch_generator(batch_size):
             mask_list.append([mask])
 
         image_list = np.array(image_list, dtype=np.float32)
-        image_list = image_list.transpose((0, 3, 1, 2))
+        if K.image_dim_ordering() == 'th':
+            image_list = image_list.transpose((0, 3, 1, 2))
         image_list = preprocess_batch(image_list)
         mask_list = np.array(mask_list, dtype=np.float32)
         mask_list /= 255.0
@@ -80,10 +73,10 @@ def train_unet():
     out_model_path = 'zf_unet_224.h5'
     epochs = 400
     patience = 20
-    batch_size = 16
+    batch_size = 12
     optim_type = 'Adam'
-    learning_rate = 0.0001
-    model = ZF_UNET_224(0.05, True)
+    learning_rate = 0.001
+    model = ZF_UNET_224()
     if os.path.isfile(out_model_path):
         model.load_weights(out_model_path)
 
@@ -95,16 +88,16 @@ def train_unet():
 
     callbacks = [
         EarlyStopping(monitor='val_loss', patience=patience, verbose=0),
-        ModelCheckpoint('zf_unet_224_temp.hdf5', monitor='val_loss', save_best_only=True, verbose=0),
+        ModelCheckpoint('zf_unet_224_temp.h5', monitor='val_loss', save_best_only=True, verbose=0),
     ]
 
     print('Start training...')
     history = model.fit_generator(
         generator=batch_generator(batch_size),
-        nb_epoch=epochs,
-        samples_per_epoch=200*batch_size,
+        epochs=epochs,
+        steps_per_epoch=100,
         validation_data=batch_generator(batch_size),
-        nb_val_samples=200*batch_size,
+        validation_steps=100,
         verbose=2,
         callbacks=callbacks)
 
@@ -127,4 +120,5 @@ if __name__ == '__main__':
         except:
             print('Theano is unavailable...')
     print('Keras version {}'.format(__version__))
+    print('Dim ordering:', K.image_dim_ordering())
     train_unet()
