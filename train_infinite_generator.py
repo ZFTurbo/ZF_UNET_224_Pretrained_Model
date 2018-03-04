@@ -75,7 +75,7 @@ def train_unet():
     patience = 20
     batch_size = 12
     optim_type = 'Adam'
-    learning_rate = 0.001
+    learning_rate = 0.0005
     model = ZF_UNET_224()
     if os.path.isfile(out_model_path):
         model.load_weights(out_model_path)
@@ -95,9 +95,9 @@ def train_unet():
     history = model.fit_generator(
         generator=batch_generator(batch_size),
         epochs=epochs,
-        steps_per_epoch=100,
+        steps_per_epoch=200,
         validation_data=batch_generator(batch_size),
-        validation_steps=100,
+        validation_steps=200,
         verbose=2,
         callbacks=callbacks)
 
