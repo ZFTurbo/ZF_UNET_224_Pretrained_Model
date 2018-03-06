@@ -3,7 +3,7 @@ Modification of convolutional neural net "UNET" for image segmentation in Keras 
 
 ## Requirements
 
-Python 3.*, Keras 2.0.8, Theano 0.9 or Tensorflow 1.3.0
+Python 3.*, Keras 2.*, Tensorflow 1.4
 
 ## Usage
 
@@ -27,16 +27,16 @@ model.fit(...)
 - Input shape for model is 224x224 (the same as for other popular CNNs like VGG or ResNet)
 - It has 3 input channels (to process standard RGB (BGR) images). You can change it with variable "INPUT_CHANNELS"
 - In most cases model ZF_UNET_224 is ok to be used without pretrained weights.
-- This code should work fine on both Theano and Tensorflow backends. Code prepared for Keras 2.0, if you need code for Keras 1.2 then use this [link](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/tree/b68bbf3a8af4b732a68cf693fcaa59ae19a0e5e5):
+- This code should work fine on both Theano and Tensorflow backends. Code prepared for Keras 2.1, if you need code for Keras 1.2 then use this [link](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/tree/b68bbf3a8af4b732a68cf693fcaa59ae19a0e5e5):
 
 ## Pretrained weights
 
-Download: [Weights for Theano backend ~123 MB (for old version of Keras 1.2)](https://mega.nz/#!eAY2WAJS!zsb9rq20gjaSWJECu6tGdTN9tG6ZzQk0KQvB8iG2sL4)
+Download: [Weights for Tensorflow backend ~123 MB (Keras 2.1, Dice coef: 0.998)](https://mega.nz/#!6Zg1UJTB!p9LUrwT0mCiIZYcTItjrutdbNQ9KjHsqAAoIurFNToY)
 
 Weights were obtained with random image generator (generator code available here: train_infinite_generator.py). See example of images from generator below.
 
 ![Example of images from generator](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/blob/master/img/ZF_UNET_Generator_Images_Example.png)
 
-Dice coefficient for pretrained weights: **~0.999**. See history of learning below:
+Dice coefficient for pretrained weights: **~0.998**. See history of learning below:
 
 ![Log of dice coefficient during training process](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/blob/master/img/Dice_log.png)
