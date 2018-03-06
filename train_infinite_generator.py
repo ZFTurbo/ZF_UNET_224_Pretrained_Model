@@ -11,7 +11,7 @@ import random
 import numpy as np
 import pandas as pd
 from keras.optimizers import Adam, SGD
-from keras.callbacks import ModelCheckpoint, EarlyStopping
+from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 from keras import __version__
 from zf_unet_224_model import *
 
@@ -71,11 +71,11 @@ def batch_generator(batch_size):
 
 def train_unet():
     out_model_path = 'zf_unet_224.h5'
-    epochs = 400
+    epochs = 200
     patience = 20
-    batch_size = 12
-    optim_type = 'Adam'
-    learning_rate = 0.0005
+    batch_size = 16
+    optim_type = 'SGD'
+    learning_rate = 0.001
     model = ZF_UNET_224()
     if os.path.isfile(out_model_path):
         model.load_weights(out_model_path)
@@ -87,7 +87,8 @@ def train_unet():
     model.compile(optimizer=optim, loss=dice_coef_loss, metrics=[dice_coef])
 
     callbacks = [
-        EarlyStopping(monitor='val_loss', patience=patience, verbose=0),
+        ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, min_lr=1e-9, epsilon=0.00001, verbose=1, mode='min'),
+        # EarlyStopping(monitor='val_loss', patience=patience, verbose=0),
         ModelCheckpoint('zf_unet_224_temp.h5', monitor='val_loss', save_best_only=True, verbose=0),
     ]
 
