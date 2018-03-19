@@ -31,7 +31,7 @@ model.fit(...)
 
 ## Pretrained weights
 
-Download: [Weights for Tensorflow backend ~123 MB (Keras 2.1, Dice coef: 0.998)](https://mega.nz/#!6Zg1UJTB!p9LUrwT0mCiIZYcTItjrutdbNQ9KjHsqAAoIurFNToY)
+Download: [Weights for Tensorflow backend ~123 MB (Keras 2.1, Dice coef: 0.998)](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/releases/download/v1.0/zf_unet_224.h5)
 
 Weights were obtained with random image generator (generator code available here: train_infinite_generator.py). See example of images from generator below.
 
