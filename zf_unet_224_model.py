@@ -124,7 +124,7 @@ def ZF_UNET_224(dropout_val=0.2, weights=None):
             'zf_unet_224_weights_tf_dim_ordering_tf_generator.h5',
             ZF_UNET_224_WEIGHT_PATH,
             cache_subdir='models',
-            file_hash='203146F209BAF34AC0D793E1691F1AB7')
+            file_hash='203146f209baf34ac0d793e1691f1ab7')
         model.load_weights(weights_path)
 
     return model
