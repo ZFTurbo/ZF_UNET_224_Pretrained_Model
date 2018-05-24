@@ -27,10 +27,10 @@ OUTPUT_MASK_CHANNELS = 1
 ZF_UNET_224_WEIGHT_PATH = 'https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model/releases/download/v1.0/zf_unet_224.h5'
 
 
-def preprocess_batch(batch):
-    batch /= 256
-    batch -= 0.5
-    return batch
+def preprocess_input(x):
+    x /= 256
+    x -= 0.5
+    return x
 
 
 def dice_coef(y_true, y_pred):

@@ -63,7 +63,7 @@ def batch_generator(batch_size):
         image_list = np.array(image_list, dtype=np.float32)
         if K.image_dim_ordering() == 'th':
             image_list = image_list.transpose((0, 3, 1, 2))
-        image_list = preprocess_batch(image_list)
+        image_list = preprocess_input(image_list)
         mask_list = np.array(mask_list, dtype=np.float32)
         mask_list /= 255.0
         yield image_list, mask_list
